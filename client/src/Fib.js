@@ -39,12 +39,12 @@ class Fib extends Component {
   }
 
   renderValues() {
-    const entries = [];
+    const entries = ["This is my first value"];
 
     for (let key in this.state.values) {
       entries.push(
         <div key={key}>
-          For index {key} I calculated {this.state.values[key]}
+          Calculated nothing....
         </div>
       );
     }
