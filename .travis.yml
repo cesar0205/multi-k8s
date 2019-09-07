@@ -1,4 +1,4 @@
-sudo: required
+ sudo: required
 services:
   - docker
 
@@ -6,16 +6,16 @@ before_install:
   - docker build -t cesar0205/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true cesar0205/react-test npm test
+  - docker run cesar0205/react-test npm test -- --coverage
 
 after_success:
   - docker build -t cesar0205/multi-client ./client
   - docker build -t cesar0205/multi-nginx ./nginx
   - docker build -t cesar0205/multi-server ./server
   - docker build -t cesar0205/multi-worker ./worker
-
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-
+  # Take those images and push them to docker hub
   - docker push cesar0205/multi-client
   - docker push cesar0205/multi-nginx
   - docker push cesar0205/multi-server
@@ -23,14 +23,13 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: us-east-2
+  region: us-west-1
   app: multi-docker
   env: MultiDocker-env
-  bucket_name: elasticbeanstalk-us-east-2-500842129309
+  bucket_name: elasticbeanstalk-us-west-1-306476627547
   bucket_path: docker-multi
   on:
     branch: master
-  access_key_id: 
-    secure: $AWS_ACCESS_KEY
+  access_key_id: $AWS_ACCESS_KEY
   secret_access_key:
     secure: $AWS_SECRET_KEY
