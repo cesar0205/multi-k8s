@@ -1,3 +1,4 @@
+ 
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -39,12 +40,12 @@ class Fib extends Component {
   }
 
   renderValues() {
-    const entries = ["This is my first value"];
+    const entries = [];
 
     for (let key in this.state.values) {
       entries.push(
         <div key={key}>
-          Calculated nothing....
+          For index {key} I calculated {this.state.values[key]}
         </div>
       );
     }
